@@ -1,0 +1,361 @@
+@use 'sass:color';
+
+@use './breakpoints.scss' as *;
+@use './fonts.scss';
+@use './helpers.scss' as *;
+
+:root {
+  --accent: #6c5ce7;
+  --accent-lightened-5: #{color.adjust(#6c5ce7, $lightness: 5%)};
+  --accent-secondary: #A29BFE;
+  --accent-darkened-5: #{color.adjust(#6c5ce7, $lightness: -5%)};
+  --accent-darkened-10: #{color.adjust(#6c5ce7, $lightness: -10%)};
+
+  --text: #111028;
+  --text-secondary: color-mix(in srgb, var(--text) 54%, transparent);
+  --text-tertiary: color-mix(in srgb, var(--text) 38%, transparent);
+
+  --bg: #fff;
+  --bg-secondary: #f4f3ff;
+  --bg-tertiary: #fafaff;
+
+  --text-dark: var(--bg);
+  --text-secondary-dark: color-mix(in srgb, var(--bg) 70%, transparent);
+  --text-tertiary-dark: color-mix(in srgb, var(--bg) 50%, transparent);
+
+  --bg-dark: #1E1D22;
+  --bg-secondary-dark: #2B2A32;
+  --bg-secondary-dark-darkened-2: #{color.adjust(#2B2A32, $lightness: -2%)};
+  --bg-tertiary-dark: #343244;
+  --bg-tertiary-dark-lightened-3: #{color.adjust(#343244, $lightness: 3%)};
+  --bg-tertiary-dark-lightened-5: #{color.adjust(#343244, $lightness: 5%)};
+  --bg-tertiary-dark-lightened-10: #{color.adjust(#343244, $lightness: 10%)};
+
+  --negative-saturated: #d63031;
+  --negative: #ff7675;
+  --positive-saturated: #00b894;
+  --positive: #55efc4;
+  --warning-saturated: #fdcb6e;
+  --warning-saturated-darkened-25: #{color.adjust(#fdcb6e, $lightness: -25%)};
+  --warning: #ffeaa7;
+
+  --radius-base: 3;
+
+  --radius-s: calc((var(--radius-base) / 16) * 1rem);
+  --radius-m: calc((var(--radius-base) * 2 / 16) * 1rem);
+  --radius-l: calc((var(--radius-base) * 4 / 16) * 1rem);
+  --radius-xl: calc((var(--radius-base) * 8 / 16) * 1rem);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+
+  &::selection {
+    color: var(--bg);
+    background-color: var(--accent);
+  }
+
+  &:focus {
+    outline: none !important;
+  }
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+
+  body {
+    color-scheme: light dark;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-feature-settings: 'zero' on, 'ss01' on, 'cv05' on;
+    font-size: 1rem;
+    line-height: 1.5;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    color: var(--text);
+    background-color: var(--bg);
+
+    &.sidebar {
+      margin-left: rem(320);
+
+      @media #{$tablet} {
+        margin-left: 0;
+      }
+    }
+
+    &.dark {
+      color: var(--text-dark);
+      background-color: var(--bg-dark);
+
+      *::selection {
+        background-color: var(--accent-secondary);
+      }
+
+      blockquote footer {
+        color: var(--text-secondary-dark);
+      }
+
+      pre {
+        background-color: var(--bg-secondary-dark);
+
+        code {
+          background-color: initial;
+        }
+      }
+
+      table {
+        thead tr th {
+          border-bottom: 2px solid var(--bg-secondary-dark);
+        }
+
+        tbody tr {
+          &:nth-child(even) {
+            background-color: var(--bg-secondary-dark);
+
+            code {
+              background-color: var(--bg-tertiary-dark);
+            }
+          }
+        }
+      }
+
+      hr {
+        background-color: var(--bg-secondary-dark);
+      }
+
+      code, kbd {
+        background-color: var(--bg-secondary-dark);
+      }
+
+      kbd {
+        color: var(--text-dark);
+        border-color: var(--bg-tertiary-dark);
+        box-shadow: 0 1px 0 var(--bg-tertiary-dark), inset 0 0 0 1px var(--bg-secondary-dark);
+        text-shadow: none;
+      }
+
+      a {
+        color: var(--accent-secondary);
+      }
+    }
+
+    h1, h2, h3,
+    .h1, .h2, .h3 {
+      font-feature-settings: 'cv11' on, 'cv05' off, 'cv08' on;
+      font-weight: 700;
+    }
+
+    h1, .h1 {
+      margin-top: 4rem;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+
+      + h2,
+      + .h2 {
+        margin-top: 2rem;
+      }
+    }
+
+    h2, .h2 {
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+
+      + h3,
+      + .h3 {
+        margin-top: 1.5rem;
+      }
+    }
+
+    h3, .h3 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    h4, h5, h6,
+    .h4, .h5, .h6 {
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    p {
+      margin: 1rem 0;
+    }
+
+    ol,
+    ul {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      margin-left: 1.5rem;
+      padding-left: 0;
+
+      ol {
+        list-style-type: lower-alpha;
+
+        ol {
+          list-style-type: lower-roman;
+        }
+      }
+
+      li > p {
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    blockquote {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      margin-left: 0.5rem;
+      padding-left: 1rem;
+      margin-right: 0.5rem;
+      position: relative;
+
+      &::before {
+        content: '';
+        display: block;
+        background-color: var(--accent-secondary);
+        position: absolute;
+        width: 2px;
+        height: 100%;
+        left: 0;
+      }
+
+      > footer {
+        font-style: italic;
+        color: var(--text-secondary);
+
+        &::before {
+          content: '– ';
+        }
+      }
+    }
+
+    pre {
+      margin: 2rem 0;
+      padding: 1rem;
+      background-color: var(--bg-tertiary-dark);
+      color: var(--bg);
+      border-radius: var(--radius-l);
+      overflow: auto;
+      white-space: pre-wrap;
+
+      &::selection,
+      ::selection {
+        background-color: var(--accent-secondary);
+      }
+
+      &[data-lang] {
+        position: relative;
+        padding-top: 2rem;
+
+        &::before {
+          content: attr(data-lang);
+          color: var(--text-tertiary-dark);
+          position: absolute;
+          display: block;
+          top: 0.5rem;
+          right: 1rem;
+          font-family: 'Inter', sans-serif;
+          font-weight: 700;
+          font-size: 0.75rem;
+        }
+      }
+
+      code {
+        display: inline;
+        padding: 0;
+        background-color: initial;
+        white-space: pre-wrap;
+      }
+    }.table-wrapper {
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 1rem;
+        vertical-align: baseline;
+      }
+
+      thead tr th {
+        white-space: nowrap;
+        text-align: left;
+        border-bottom: 2px solid var(--bg-secondary);
+      }
+
+      tbody tr {
+        &:nth-child(even) {
+          background-color: var(--bg-tertiary);
+        }
+      }
+    }
+
+    hr {
+      border: none;
+      background-color: var(--bg-secondary);
+      height: 0.125rem;
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      background-image: linear-gradient(var(--accent-secondary), var(--accent-secondary));
+      background-position: 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 0% 2px;
+      transition: background-size 200ms ease;
+
+      &:hover,
+      &:focus {
+        background-position: 0% 100%;
+        background-size: 100% 2px;
+      }
+    }
+
+    code {
+      font-family: monospace;
+      background-color: var(--bg-secondary);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-m);
+      hyphens: manual;
+    }
+
+    kbd {
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1px;
+      text-align: center;
+      display: inline-block;
+      min-width: 1.5rem;
+      margin: 0 0.1rem;
+      padding: 0rem 0.25rem;
+      border-radius: var(--radius-s);
+      border: 1px solid var(--text-tertiary);
+      box-shadow: 0 1px 0 var(--text-tertiary), inset 0 0 0 1px var(--bg);
+      color: var(--text);
+      background-color: var(--bg-secondary);
+      text-shadow: 0 1px 0 var(--bg);
+      font-size: 0.875rem;
+      text-transform: capitalize;
+    }
+  }
+}
